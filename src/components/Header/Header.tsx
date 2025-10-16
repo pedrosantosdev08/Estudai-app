@@ -1,16 +1,10 @@
-import * as React from 'react';
-import { Appbar } from 'react-native-paper';
+import * as React from "react";
+import { Appbar } from "react-native-paper";
 
 export const TittleBar = () => {
-  const Voltar = () => console.log('Voltando');
-
-  const Opcoes = () => console.log('Opcoes');
-
   return (
-    <Appbar.Header mode='center-aligned'>
-      <Appbar.BackAction onPress={Voltar} />
+    <Appbar.Header mode="center-aligned">
       <Appbar.Content title="Estudaí" />
-      <Appbar.Action icon="dots-vertical" onPress={Opcoes} />
     </Appbar.Header>
   );
 };
