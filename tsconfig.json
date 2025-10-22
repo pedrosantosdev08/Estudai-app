@@ -16,6 +16,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "App.tsx", "app.config.ts", "index.ts"],
+  "include": ["src", "App.tsx", "app.config.ts", "index.ts", "src/modules/screens/HomeScreen/components"],
   "exclude": ["node_modules"]
 }
