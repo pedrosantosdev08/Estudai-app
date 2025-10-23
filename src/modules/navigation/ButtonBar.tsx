@@ -12,9 +12,9 @@ export default function ButtonBar() {
 
   const routes = [
     { key: "home", title: "Home", icon: "home" },
-    { key: "discipliny", title: "Disciplina", icon: "home" },
-    { key: "foco", title: "Foco", icon: "home" },
-    { key: "stats", title: "Estatisticas", icon: "home" },
+    { key: "discipliny", title: "Disciplina", icon: "book" },
+    { key: "foco", title: "Foco", icon: "clock-digital" },
+    { key: "stats", title: "Estatisticas", icon: "database" },
   ];
 
   const renderScene = ({ route }:any) => {
