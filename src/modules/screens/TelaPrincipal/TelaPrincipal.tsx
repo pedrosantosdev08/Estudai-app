@@ -1,14 +1,28 @@
 import * as React from "react";
 import { View, ScrollView } from "react-native";
-import { Appbar, Card, Text, Button, FAB, ProgressBar } from "react-native-paper";
+import {
+  Appbar,
+  Card,
+  Text,
+  Button,
+  FAB,
+  ProgressBar,
+  TextInput,
+} from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./TelaPrincipalStyle";
+import { TelaPrincipalLogic } from "@/modules/services/TelaPrincipal/TelaPrincipalLogic";
 
 export default function HomeScreen() {
+  const logic = TelaPrincipalLogic();
+
   return (
-    
     <View style={styles.container}>
-      {/* Header */}
-      <Appbar.Header style={styles.header}>
+      <LinearGradient
+        colors={["#6200ee", "transparent"]}
+        style={styles.background}
+      />
+      <Appbar.Header style={styles.header} mode="center-aligned">
         <Appbar.Content title="Olá, Estudante! 👋" />
       </Appbar.Header>
 
@@ -17,8 +31,15 @@ export default function HomeScreen() {
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Sequência de dias</Text>
-            <Text variant="headlineMedium" style={styles.highlight}>7</Text>
+            <Text variant="headlineMedium" style={styles.highlight}>
+              {logic.sequenciaDias}
+            </Text>
             <Text>dias 🔥</Text>
+            <Button
+              onPress={() => logic.setSequenciaDias(logic.sequenciaDias + 1)}
+            >
+              +1 dia
+            </Button>
           </Card.Content>
         </Card>
 
@@ -26,7 +47,10 @@ export default function HomeScreen() {
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Hoje</Text>
-            <Text variant="titleLarge" style={styles.highlight}>2h 30min</Text>
+            <Text variant="titleLarge" style={styles.highlight}>
+              {logic.formatarTempo(logic.tempoHoje)}
+            </Text>
+            <Button onPress={logic.handleAdicionarTempo}>+1h de estudo</Button>
           </Card.Content>
         </Card>
 
@@ -34,7 +58,26 @@ export default function HomeScreen() {
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Disciplinas</Text>
-            <Text style={styles.infoText}>8 ativas</Text>
+            <Text style={styles.infoText}>
+              {logic.disciplinasAtivas} ativas
+            </Text>
+
+            {logic.showAddDisciplina ? (
+              <>
+                <TextInput
+                  mode="outlined"
+                  label="Nova disciplina"
+                  value={logic.novaDisciplina}
+                  onChangeText={logic.setNovaDisciplina}
+                  style={{ marginVertical: 8 }}
+                />
+                <Button onPress={logic.handleAddDisciplina}>Salvar</Button>
+              </>
+            ) : (
+              <Button onPress={() => logic.setShowAddDisciplina(true)}>
+                + Adicionar disciplina
+              </Button>
+            )}
           </Card.Content>
         </Card>
 
@@ -42,43 +85,66 @@ export default function HomeScreen() {
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Metas</Text>
-            <Text style={styles.infoText}>12/20</Text>
+            <Text style={styles.infoText}>
+              {logic.metas.feitas}/{logic.metas.total}
+            </Text>
+            <Button onPress={logic.handleConcluirMeta}>Concluir Meta</Button>
           </Card.Content>
         </Card>
 
-        {/* Agenda de Hoje */}
+        {/* Agenda */}
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Agenda de Hoje</Text>
-            <Text style={styles.agendaItem}>Matemática - Cálculo I</Text>
-            <Text style={styles.agendaTime}>14:00 - 15:30</Text>
-            <Text style={styles.agendaItem}>História - Revolução Industrial</Text>
-            <Text style={styles.agendaTime}>16:00 - 17:00</Text>
-            <Button mode="outlined" onPress={() => console.log("Adicionar sessão de estudo")}>
-              + Adicionar sessão de estudo
-            </Button>
+            {logic.agenda.map((item, index) => (
+              <View key={index}>
+                <Text style={styles.agendaItem}>{item.materia}</Text>
+                <Text style={styles.agendaTime}>{item.horario}</Text>
+              </View>
+            ))}
+
+            {logic.showAddSessao ? (
+              <>
+                <TextInput
+                  mode="outlined"
+                  label="Nova sessão"
+                  value={logic.novaSessao}
+                  onChangeText={logic.setNovaSessao}
+                  style={{ marginVertical: 8 }}
+                />
+                <Button onPress={logic.handleAddSessao}>Salvar</Button>
+              </>
+            ) : (
+              <Button onPress={() => logic.setShowAddSessao(true)}>
+                + Adicionar sessão de estudo
+              </Button>
+            )}
           </Card.Content>
         </Card>
 
-        {/* Progresso Semanal */}
+        {/* Progresso semanal */}
         <Card style={styles.card}>
           <Card.Content>
             <Text variant="headlineSmall">Progresso Semanal</Text>
-            <Text style={styles.infoText}>Meta da semana</Text>
-            <ProgressBar progress={18/25} color="#6200ee" style={styles.progressBar} />
-            <Text style={styles.infoText}>18/25h</Text>
+            <ProgressBar
+              progress={
+                logic.progressoSemana.atual / logic.progressoSemana.meta
+              }
+              color="#6200ee"
+              style={styles.progressBar}
+            />
+            <Text style={styles.infoText}>
+              {logic.progressoSemana.atual}/{logic.progressoSemana.meta}h
+            </Text>
           </Card.Content>
         </Card>
       </ScrollView>
 
-      {/* Floating Action Button */}
       <FAB
         style={styles.fab}
         icon="plus"
-        onPress={() => console.log("Adicionar disciplina")}
+        onPress={() => logic.setShowAddDisciplina(!logic.showAddDisciplina)}
       />
     </View>
   );
 }
-
-

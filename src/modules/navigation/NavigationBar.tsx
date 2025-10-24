@@ -1,13 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { View } from "react-native";
 import { BottomNavigation, Text, Provider, Icon } from "react-native-paper";
 import DisciplinyCard from "../screens/SubjectScreen/components/DisciplinyCard/DisciplinyCard";
 import PomodoroScreen from "../screens/PomodoroScreen/PomodoroScreen";
 import TelaPrincipal from "../screens/TelaPrincipal/TelaPrincipal";
 import StatsScreen from "../screens/StatsScreens/StatsScreens";
 
-export default function ButtonBar() {
+export default function NavigationBar() {
   const [index, setIndex] = useState(0);
 
   const routes = [
