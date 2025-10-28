@@ -11,7 +11,7 @@ import {
 } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./TelaPrincipalStyle";
-import { TelaPrincipalLogic } from "@/modules/services/TelaPrincipal/TelaPrincipalLogic";
+import { TelaPrincipalLogic } from "components/Services/TelaPrincipalLogic";
 
 export default function HomeScreen() {
   const logic = TelaPrincipalLogic();
@@ -23,7 +23,7 @@ export default function HomeScreen() {
         style={styles.background}
       />
       <Appbar.Header style={styles.header} mode="center-aligned">
-        <Appbar.Content title="Olá, Estudante! 👋" />
+        <Appbar.Content title="Olá, Estudante! 👋" color="#6200ee" />
       </Appbar.Header>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>

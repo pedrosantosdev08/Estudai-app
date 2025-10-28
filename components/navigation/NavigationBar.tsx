@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { BottomNavigation, Text, Provider, Icon } from "react-native-paper";
-import DisciplinyCard from "../screens/SubjectScreen/components/DisciplinyCard/DisciplinyCard";
-import PomodoroScreen from "../screens/PomodoroScreen/PomodoroScreen";
-import TelaPrincipal from "../screens/TelaPrincipal/TelaPrincipal";
-import StatsScreen from "../screens/StatsScreens/StatsScreens";
+import { BottomNavigation, Provider, Icon } from "react-native-paper";
+import DisciplinyCard from "@/components/DisciplinyCard/DisciplinyCard";
+import PomodoroScreen from "@/Screens/PomodoroScreen/PomodoroScreen";
+import TelaPrincipal from "@/Screens/TelaPrincipal/TelaPrincipal";
+import StatsScreen from "@/Screens/StatsScreens/StatsScreens";
 
 export default function NavigationBar() {
   const [index, setIndex] = useState(0);
@@ -16,17 +16,17 @@ export default function NavigationBar() {
     { key: "stats", title: "Estatisticas", icon: "database" },
   ];
 
-  const renderScene = ({ route }:any) => {
+  const renderScene = ({ route }: any) => {
     switch (route.key) {
       case "home":
-        return <TelaPrincipal/>;
+        return <TelaPrincipal />;
       case "discipliny":
         return <DisciplinyCard />;
       case "foco":
         return <PomodoroScreen />;
       case "stats":
         return <StatsScreen />;
-      
+
     }
   };
 

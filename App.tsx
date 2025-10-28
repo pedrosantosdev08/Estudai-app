@@ -1,6 +1,6 @@
 import React from "react";
 import { PaperProvider } from "react-native-paper";
-import { Layout } from "@/modules/screens/HomeScreen/components/Layout/Layout";
+import { Layout } from "./Screens/HomeScreen/Layout";
 
 export default function App() {
   return (
