@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Modal, View, ScrollView, TextInput, Image } from "react-native";
+import {
+  Modal,
+  View,
+  ScrollView,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
-import BottomBar from "./BottomBar";
+import { Video, ResizeMode } from "expo-av";
+import { Audio } from "expo-av";
+import ManageButton from "./201ManageButton";
 import styles from "./styles";
 
 type Conteudo = {
@@ -32,8 +41,17 @@ const MaterialModal = ({
   const [isAddingText, setIsAddingText] = useState(false);
   const [isSelectingDelete, setIsSelectingDelete] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [playingAudioIndex, setPlayingAudioIndex] = useState<number | null>(null);
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
-  const conteudoAtual = card ? materiaisPorId[card.id] ?? { textos: [], imagens: [], videos: [], audios: [] } : null;
+  const conteudoAtual = card
+    ? materiaisPorId[card.id] ?? {
+      textos: [],
+      imagens: [],
+      videos: [],
+      audios: [],
+    }
+    : null;
 
   useEffect(() => {
     const carregar = async () => {
@@ -52,7 +70,12 @@ const MaterialModal = ({
     if (card && !materiaisPorId[card.id]) {
       const atualizados = {
         ...materiaisPorId,
-        [card.id]: { textos: [], imagens: [], videos: [], audios: [] },
+        [card.id]: {
+          textos: [],
+          imagens: [],
+          videos: [],
+          audios: [],
+        },
       };
       setMateriaisPorId(atualizados);
       salvarMateriais(atualizados);
@@ -137,6 +160,20 @@ const MaterialModal = ({
     }
   };
 
+  const playAudio = async (uri: string, index: number) => {
+    if (sound) {
+      await sound.stopAsync();
+      await sound.unloadAsync();
+      setSound(null);
+      setPlayingAudioIndex(null);
+    }
+
+    const { sound: newSound } = await Audio.Sound.createAsync({ uri });
+    setSound(newSound);
+    setPlayingAudioIndex(index);
+    await newSound.playAsync();
+  };
+
   const confirmarExclusaoMateria = async () => {
     if (card) {
       const copia = { ...materiaisPorId };
@@ -198,7 +235,13 @@ const MaterialModal = ({
 
           {conteudoAtual?.videos.map((uri, index) => (
             <View key={index} style={styles.itemRow}>
-              <Text style={{ marginTop: 8 }}>Vídeo selecionado: {uri}</Text>
+              <Video
+                source={{ uri }}
+                style={styles.preview}
+                useNativeControls
+                resizeMode={ResizeMode.CONTAIN}
+                isLooping
+              />
               {isSelectingDelete && (
                 <Button onPress={() => removerVideo(index)} compact>
                   Remover
@@ -209,7 +252,11 @@ const MaterialModal = ({
 
           {conteudoAtual?.audios.map((uri, index) => (
             <View key={index} style={styles.itemRow}>
-              <Text style={{ marginTop: 8 }}>Áudio selecionado: {uri}</Text>
+              <TouchableOpacity onPress={() => playAudio(uri, index)}>
+                <Text style={{ marginTop: 8 }}>
+                  {playingAudioIndex === index ? "Reproduzindo..." : "Tocar Áudio"}
+                </Text>
+              </TouchableOpacity>
               {isSelectingDelete && (
                 <Button onPress={() => removerAudio(index)} compact>
                   Remover
@@ -220,7 +267,7 @@ const MaterialModal = ({
 
           {isSelectingDelete && (
             <Button onPress={() => setIsSelectingDelete(false)} style={{ marginTop: 8 }}>
-              Cancelar Remoção
+              Concluído
             </Button>
           )}
 
@@ -239,7 +286,7 @@ const MaterialModal = ({
           )}
         </ScrollView>
 
-        <BottomBar
+        <ManageButton
           onPickImage={pickImage}
           onPickVideo={pickVideo}
           onPickAudio={pickAudio}

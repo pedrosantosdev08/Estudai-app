@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Button, Card } from "react-native-paper";
 import styles from "./styles";
 
-const BottomBar = ({
+const ManageButton = ({
   onPickImage,
   onPickVideo,
   onPickAudio,
@@ -72,4 +72,4 @@ const BottomBar = ({
   );
 };
 
-export default BottomBar;
+export default ManageButton;

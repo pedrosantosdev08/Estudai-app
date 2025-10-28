@@ -9,48 +9,17 @@ const styles = StyleSheet.create({
         color: "#6200ee",
         height: 300,
     },
-    fab: {
-        position: "absolute",
-        right: 16,
-        bottom: 16,
-        backgroundColor: "#6200ee",
-    },
-    container: {
+    barButton: {
         flex: 1,
-        backgroundColor: "#f2f2f2",
+        marginHorizontal: 4,
     },
-    outsideButton: {
-        marginBottom: 16,
-    },
-    extraCard: {
-        marginTop: 16,
-    },
-    header: {
-        backgroundColor: "#f2f2f2",
-    },
-    modalWrapper: {
-        flex: 1,
-        justifyContent: "space-between",
-    },
-    scrollContent: {
-        padding: 16,
-        paddingBottom: 80,
-    },
-    highlight: {
-        fontSize: 32,
-        fontWeight: "bold",
-        color: "#6200ee",
-    },
-    modalContent: {
-        padding: 16,
-        paddingBottom: 80,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
+    bottomBar: {
+        flexDirection: "row",
+        justifyContent: "space-around",
         padding: 12,
-        borderRadius: 8,
-        marginBottom: 12,
+        borderTopWidth: 1,
+        borderColor: "#ccc",
+        backgroundColor: "#f9f9f9",
     },
     button: {
         marginTop: 8,
@@ -66,32 +35,55 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 5 },
         elevation: 5,
     },
-    preview: {
-        width: "100%",
-        height: 200,
-        marginTop: 8,
-        borderRadius: 8,
-    },
-    bottomBar: {
-        flexDirection: "row",
-        justifyContent: "space-around",
+    confirmationBox: {
+        marginTop: 16,
         padding: 12,
-        borderTopWidth: 1,
+        backgroundColor: "#ffe6e6",
+        borderRadius: 8,
+        borderColor: "#ff4d4d",
+        borderWidth: 1,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "#f2f2f2",
+    },
+    fab: {
+        position: "absolute",
+        right: 16,
+        bottom: 16,
+        backgroundColor: "#6200ee",
+    },
+    header: {
+        backgroundColor: "#f2f2f2",
+    },
+    highlight: {
+        fontSize: 32,
+        fontWeight: "bold",
+        color: "#6200ee",
+    },
+    input: {
+        borderWidth: 1,
         borderColor: "#ccc",
-        backgroundColor: "#f9f9f9",
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 12,
     },
-    barButton: {
-        flex: 1,
-        marginHorizontal: 4,
-    },
-    textActions: {
+    itemRow: {
         flexDirection: "row",
+        alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 8,
+        marginBottom: 8,
     },
-    textButton: {
+    MateriaCard: {
+        marginTop: 16,
+    },
+    modalWrapper: {
         flex: 1,
-        marginHorizontal: 4,
+        justifyContent: "space-between",
+    },
+    modalContent: {
+        padding: 16,
+        paddingBottom: 80,
     },
     manageCard: {
         position: "absolute",
@@ -103,28 +95,30 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingVertical: 8,
     },
-    itemRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: 8,
-    },
     manageButton: {
         marginVertical: 4,
     },
-    textInputWrapper: {
-        marginVertical: 12,
-        padding: 8,
-        backgroundColor: "#f5f5f5",
+    outsideButton: {
+        marginBottom: 16,
+    },
+    preview: {
+        width: "100%",
+        height: 200,
+        marginTop: 8,
         borderRadius: 8,
     },
-    confirmationBox: {
-        marginTop: 16,
-        padding: 12,
-        backgroundColor: "#ffe6e6",
-        borderRadius: 8,
-        borderColor: "#ff4d4d",
-        borderWidth: 1,
+    scrollContent: {
+        padding: 16,
+        paddingBottom: 80,
+    },
+    textActions: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 8,
+    },
+    textButton: {
+        flex: 1,
+        marginHorizontal: 4,
     },
     textInput: {
         minHeight: 60,
@@ -133,6 +127,12 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: 8,
         backgroundColor: "#fff",
+    },
+    textInputWrapper: {
+        marginVertical: 12,
+        padding: 8,
+        backgroundColor: "#f5f5f5",
+        borderRadius: 8,
     },
 });
 

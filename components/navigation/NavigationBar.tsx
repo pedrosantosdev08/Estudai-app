@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { BottomNavigation, Provider, Icon } from "react-native-paper";
-import DisciplinyCard from "@/components/DisciplinyCard/DisciplinyCard";
+import DisciplinyCard from "@/components/DisciplinyCard/101DisciplinyCard";
 import PomodoroScreen from "@/Screens/PomodoroScreen/PomodoroScreen";
 import TelaPrincipal from "@/Screens/TelaPrincipal/TelaPrincipal";
 import StatsScreen from "@/Screens/StatsScreens/StatsScreens";

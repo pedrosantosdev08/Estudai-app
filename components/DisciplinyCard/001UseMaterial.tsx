@@ -74,8 +74,9 @@ export const useMateriais = (cardId?: number) => {
     };
 
     return {
-        conteudoAtual,
-        atualizarConteudo,
-        excluirMateria,
+        conteudoAtual,         // Conteúdo da matéria atual (ou null)
+        atualizarConteudo,     // Função para atualizar conteúdo
+        excluirMateria,        // Função para excluir a matéria
     };
+
 };
