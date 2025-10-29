@@ -8,6 +8,13 @@ export const styles = StyleSheet.create({
   header: {
     backgroundColor: "#f2f2f2",
   },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 300,
+  },
   scrollContent: {
     padding: 16,
     paddingBottom: 80,

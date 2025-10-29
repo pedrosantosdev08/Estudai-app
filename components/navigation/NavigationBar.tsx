@@ -1,33 +1,32 @@
 import React from "react";
 import { useState } from "react";
-import { View } from "react-native";
-import { BottomNavigation, Text, Provider, Icon } from "react-native-paper";
-import DisciplinyCard from "../screens/SubjectScreen/components/DisciplinyCard/DisciplinyCard";
-import PomodoroScreen from "../screens/PomodoroScreen/PomodoroScreen";
-import TelaPrincipal from "../screens/TelaPrincipal/TelaPrincipal";
-import StatsScreen from "../screens/StatsScreens/StatsScreens";
+import { BottomNavigation, Provider, Icon } from "react-native-paper";
+import DisciplinyCard from "@/components/DisciplinyCard/101DisciplinyCard";
+import PomodoroScreen from "@/Screens/PomodoroScreen/PomodoroScreen";
+import TelaPrincipal from "@/Screens/TelaPrincipal/TelaPrincipal";
+import StatsScreen from "@/Screens/StatsScreens/StatsScreens";
 
-export default function ButtonBar() {
+export default function NavigationBar() {
   const [index, setIndex] = useState(0);
 
   const routes = [
     { key: "home", title: "Home", icon: "home" },
-    { key: "discipliny", title: "Disciplina", icon: "home" },
-    { key: "foco", title: "Foco", icon: "home" },
-    { key: "stats", title: "Estatisticas", icon: "home" },
+    { key: "discipliny", title: "Disciplina", icon: "book" },
+    { key: "foco", title: "Foco", icon: "clock-digital" },
+    { key: "stats", title: "Estatisticas", icon: "database" },
   ];
 
-  const renderScene = ({ route }:any) => {
+  const renderScene = ({ route }: any) => {
     switch (route.key) {
       case "home":
-        return <TelaPrincipal/>;
+        return <TelaPrincipal />;
       case "discipliny":
         return <DisciplinyCard />;
       case "foco":
         return <PomodoroScreen />;
       case "stats":
         return <StatsScreen />;
-      
+
     }
   };
 
