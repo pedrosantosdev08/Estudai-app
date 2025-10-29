@@ -13,25 +13,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src",
-    "App.tsx",
-    "app.config.ts",
-    "index.ts",
-    "src/modules/screens/HomeScreen/components",
-    "components/DisciplinyCard",
-    "components/Services/TelaPrincipalLogic.ts",
-    "Screens/TelaPrincipal",
-    "Screens/StatsScreens",
-    "Screens/PomodoroScreen",
-    "Screens/HomeScreen/Layout.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "App.tsx", "app.config.ts", "index.ts", "src/modules/screens/HomeScreen/components"],
+  "exclude": ["node_modules"]
 }
