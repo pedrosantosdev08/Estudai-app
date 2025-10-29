@@ -1,10 +1,11 @@
+import TelaPrincipal from "@/src/Screens/TelaPrincipal/TelaPrincipal";
 import React from "react";
 import { useState } from "react";
 import { BottomNavigation, Provider, Icon } from "react-native-paper";
-import DisciplinyCard from "@/components/DisciplinyCard/101DisciplinyCard";
-import PomodoroScreen from "@/Screens/PomodoroScreen/PomodoroScreen";
-import TelaPrincipal from "@/Screens/TelaPrincipal/TelaPrincipal";
-import StatsScreen from "@/Screens/StatsScreens/StatsScreens";
+import DisciplinyCard from "../../Screens/DisciplinyScreen/101DisciplinyCard";
+import PomodoroScreen from "@/src/Screens/PomodoroScreen/PomodoroScreen";
+import StatsScreen from "@/src/Screens/StatsScreens/StatsScreens";
+
 
 export default function NavigationBar() {
   const [index, setIndex] = useState(0);

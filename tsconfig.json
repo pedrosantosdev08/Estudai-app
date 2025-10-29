@@ -13,9 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -25,13 +23,11 @@
     "index.ts",
     "src/modules/screens/HomeScreen/components",
     "components/DisciplinyCard",
-    "components/Services/TelaPrincipalLogic.ts",
+    "Screens/TelaPrincipal/Services/TelaPrincipalLogic.ts",
     "Screens/TelaPrincipal",
     "Screens/StatsScreens",
     "Screens/PomodoroScreen",
     "Screens/HomeScreen/Layout.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
