@@ -10,15 +10,10 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
-    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/cli": "latest",
     "@react-native-vector-icons/material-design-icons": "^12.3.0",
     "@react-navigation/native": "^7.1.18",
-    "expo": "^54.0.20",
-    "expo-av": "~16.0.7",
-    "expo-document-picker": "^14.0.7",
-    "expo-image-picker": "~17.0.8",
-    "expo-linear-gradient": "~15.0.7",
+    "expo": "^54.0.19",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -32,7 +27,6 @@
   "devDependencies": {
     "@types/react": "~19.1.0",
     "@types/react-native-vector-icons": "^6.4.18",
-    "expo-module-scripts": "^5.0.7",
     "typescript": "~5.9.2"
   },
   "private": true
