@@ -11,7 +11,8 @@ import {
 } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./TelaPrincipalStyle";
-import { TelaPrincipalLogic } from "@/modules/services/TelaPrincipal/TelaPrincipalLogic";
+import { TelaPrincipalLogic } from "./Services/TelaPrincipalLogic";
+
 
 export default function HomeScreen() {
   const logic = TelaPrincipalLogic();
@@ -23,7 +24,7 @@ export default function HomeScreen() {
         style={styles.background}
       />
       <Appbar.Header style={styles.header} mode="center-aligned">
-        <Appbar.Content title="Olá, Estudante! 👋" />
+        <Appbar.Content title="Olá, Estudante! 👋" color="#6200ee" />
       </Appbar.Header>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -62,22 +63,7 @@ export default function HomeScreen() {
               {logic.disciplinasAtivas} ativas
             </Text>
 
-            {logic.showAddDisciplina ? (
-              <>
-                <TextInput
-                  mode="outlined"
-                  label="Nova disciplina"
-                  value={logic.novaDisciplina}
-                  onChangeText={logic.setNovaDisciplina}
-                  style={{ marginVertical: 8 }}
-                />
-                <Button onPress={logic.handleAddDisciplina}>Salvar</Button>
-              </>
-            ) : (
-              <Button onPress={() => logic.setShowAddDisciplina(true)}>
-                + Adicionar disciplina
-              </Button>
-            )}
+            
           </Card.Content>
         </Card>
 
@@ -140,11 +126,11 @@ export default function HomeScreen() {
         </Card>
       </ScrollView>
 
-      <FAB
+      {/*<FAB
         style={styles.fab}
         icon="plus"
         onPress={() => logic.setShowAddDisciplina(!logic.showAddDisciplina)}
-      />
+      />*/}
     </View>
   );
 }
