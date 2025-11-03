@@ -64,12 +64,11 @@ O **Estudaí** surge como solução moderna e intuitiva, unindo **planejamento, 
 |--------|----------------|-----------|
 | **1** | Planejamento | Documento técnico e escopo final |
 | **2** | Design e Arquitetura | Protótipos de alta fidelidade e schema do banco |
-| **3** | Backend: Acesso | Autenticação e controle de usuários |
-| **4** | Backend: Conteúdo | CRUD de disciplinas/tópicos + lógica Pomodoro |
-| **5** | Frontend: Essencial | Telas de Login/Registro e Organização |
-| **6** | Integração | Tela Pomodoro + comunicação com API |
-| **7** | Analytics e Alertas | Gráficos e notificações inteligentes |
-| **8** | QA e Lançamento | Testes, otimizações e publicação nas stores |
+| **3** | Backend: Conteúdo | CRUD de disciplinas/tópicos + lógica Pomodoro |
+| **4** | Frontend: Essencial |  Organização |
+| **5** | Integração | Tela Pomodoro |
+| **6** | Analytics e Alertas | Gráficos e notificações inteligentes |
+| **7** | QA e Lançamento | Testes, otimizações e publicação nas stores |
 
 ---
 
