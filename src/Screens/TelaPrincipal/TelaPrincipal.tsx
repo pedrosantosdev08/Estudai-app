@@ -63,7 +63,7 @@ export default function HomeScreen() {
               {logic.disciplinasAtivas} ativas
             </Text>
 
-            
+
           </Card.Content>
         </Card>
 

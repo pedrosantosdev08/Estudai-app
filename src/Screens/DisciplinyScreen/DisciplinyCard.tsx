@@ -3,12 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Appbar, Card, Text } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { useMateriais } from "@/src/Screens/DisciplinyScreen/001UseMaterial";
+import { useMateriais } from "@/src/Screens/DisciplinyScreen/UseMaterial";
 import { styles } from "@/src/Screens/TelaPrincipal/TelaPrincipalStyle";
-import MateriaForm from "@/src/Screens/DisciplinyScreen/100MateriaForm";
-import MaterialModal from "@/src/Screens/DisciplinyScreen/200MaterialModal";
-
-
+import MateriaForm from "@/src/Screens/DisciplinyScreen/MateriaForm";
+import MaterialModal from "@/src/Screens/DisciplinyScreen/MaterialModal";
 
 
 type Materia = {
