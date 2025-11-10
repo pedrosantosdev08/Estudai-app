@@ -2,7 +2,7 @@ import TelaPrincipal from "@/src/Screens/TelaPrincipal/TelaPrincipal";
 import React from "react";
 import { useState } from "react";
 import { BottomNavigation, Provider, Icon } from "react-native-paper";
-import DisciplinyCard from "../../Screens/DisciplinyScreen/101DisciplinyCard";
+import DisciplinyCard from "../../Screens/DisciplinyScreen/DisciplinyCard";
 import PomodoroScreen from "@/src/Screens/PomodoroScreen/PomodoroScreen";
 import StatsScreen from "@/src/Screens/StatsScreens/StatsScreens";
 

@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  View,
-  ScrollView,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { Modal, View, ScrollView, TextInput, Image, TouchableOpacity } from "react-native";
 import { Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 import { Video, ResizeMode } from "expo-av";
 import { Audio } from "expo-av";
-import ManageButton from "./201ManageButton";
+import ManageButton from "./ManageButton";
 import styles from "./styles";
 
 type Conteudo = {
@@ -287,10 +280,10 @@ const MaterialModal = ({
         </ScrollView>
 
         <ManageButton
-          onPickImage={pickImage}
-          onPickVideo={pickVideo}
-          onPickAudio={pickAudio}
           onAddText={() => setIsAddingText(true)}
+          onPickImage={pickImage}
+          onPickAudio={pickAudio}
+          onPickVideo={pickVideo}
           onDeleteContent={() => setIsSelectingDelete(true)}
           onDeleteMaterial={() => setIsConfirmingDelete(true)}
           onBack={onClose}
