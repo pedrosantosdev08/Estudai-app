@@ -54,7 +54,7 @@ export const StatsScreen = () => {
           <Card.Content>
             <Text variant="headlineSmall">Constância semanal</Text>
             <Text style={styles.infoText}>Estudou em {diasEstudados} de 7 dias</Text>
-            <ProgressBar progress={diasEstudados / 7} color="#6200ee" style={styles.progressBar} />
+            <ProgressBar progress={diasEstudados / 7} color="#03dac6" style={styles.progressBar} />
           </Card.Content>
         </Card>
 
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   highlight: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#6200ee",
+    color: "#03dac6",
     marginTop: 4,
   },
   infoText: {

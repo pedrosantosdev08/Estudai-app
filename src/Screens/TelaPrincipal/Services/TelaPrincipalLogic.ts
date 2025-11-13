@@ -48,7 +48,7 @@ export function TelaPrincipalLogic() {
   }
 
   // 🔥 Sequência de dias
-  function incrementarSequencia() {
+  function incrementarSequencia(p0: number) {
     setSequenciaDias((prev) => {
       const novaSeq = prev + 1;
       if (novaSeq % 5 === 0) {
