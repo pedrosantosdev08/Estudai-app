@@ -14,7 +14,7 @@ import { styles } from "./TelaPrincipalStyle";
 import { TelaPrincipalLogic } from "./Services/TelaPrincipalLogic";
 
 
-export default function HomeScreen() {
+export default function TelaPrincipal() {
   const logic = TelaPrincipalLogic();
 
   return (

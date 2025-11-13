@@ -1,110 +1,87 @@
-import { useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { useState } from "react";
+import { useNotification } from "../../../providers/NotificationProvider";
 
 export function TelaPrincipalLogic() {
-  const [sequenciaDias, setSequenciaDias] = useState(7);
-
-  // tempoHoje em minutos
-  const [tempoHoje, setTempoHoje] = useState(150);
-
-  const [disciplinas, setDisciplinas] = useState(["Matemática", "História"]);
-  const [disciplinasAtivas, setDisciplinasAtivas] = useState(8);
-  const [metas, setMetas] = useState({ feitas: 12, total: 20 });
-  const [progressoSemana, setProgressoSemana] = useState({ atual: 18, meta: 25 });
+  const [sequenciaDias, setSequenciaDias] = useState(0);
+  const [tempoHoje, setTempoHoje] = useState(0);
+  const [disciplinasAtivas] = useState(3);
+  const [metas, setMetas] = useState({ feitas: 0, total: 3 });
   const [agenda, setAgenda] = useState([
-    { materia: "Matemática - Cálculo I", horario: "14:00 - 15:30" },
-    { materia: "História - Revolução Industrial", horario: "16:00 - 17:00" },
+    { materia: "Java", horario: "08:00" },
+    { materia: "Banco de Dados", horario: "10:00" },
   ]);
-  const [novaSessao, setNovaSessao] = useState("");
-  const [novaDisciplina, setNovaDisciplina] = useState("");
   const [showAddSessao, setShowAddSessao] = useState(false);
-  const [showAddDisciplina, setShowAddDisciplina] = useState(false);
+  const [novaSessao, setNovaSessao] = useState("");
+  const [progressoSemana, setProgressoSemana] = useState({
+    atual: 4,
+    meta: 10,
+  });
 
-  // --- Função para formatar tempo ---
-  const formatarTempo = (minutos: number) => {
-    const horas = Math.floor(minutos / 60);
-    const mins = minutos % 60;
-    return `${horas}h ${mins > 0 ? `${mins}min` : ""}`;
-  };
+  const { notificarConquista } = useNotification();
 
-  // --- Adicionar nova sessão ---
-  const handleAddSessao = () => {
-    if (!novaSessao.trim()) {
-      Alert.alert("Erro", "Digite o nome da sessão antes de adicionar.");
-      return;
-    }
-    setAgenda([...agenda, { materia: novaSessao, horario: "A definir" }]);
+  // ⏰ Formatar tempo
+  const formatarTempo = (horas: number) => `${horas}h`;
+
+  // 🕒 Adicionar tempo
+  function handleAdicionarTempo() {
+    setTempoHoje((prev) => {
+      const novoTempo = prev + 1;
+      if (novoTempo >= 2) {
+        // meta de 2h por dia
+        notificarConquista("🔥 Você atingiu sua meta diária de 2h!");
+      }
+      return novoTempo;
+    });
+  }
+
+  // 🏆 Concluir meta
+  function handleConcluirMeta() {
+    setMetas((prev) => {
+      const feitas = prev.feitas + 1;
+      if (feitas === prev.total) {
+        notificarConquista("🏆 Todas as metas da semana concluídas!");
+      } else {
+        notificarConquista("✅ Meta concluída! Continue assim 💪");
+      }
+      return { ...prev, feitas };
+    });
+  }
+
+  // 🔥 Sequência de dias
+  function incrementarSequencia() {
+    setSequenciaDias((prev) => {
+      const novaSeq = prev + 1;
+      if (novaSeq % 5 === 0) {
+        notificarConquista(`🔥 Você manteve uma sequência de ${novaSeq} dias!`);
+      }
+      return novaSeq;
+    });
+  }
+
+  // 📚 Adicionar sessão de estudo
+  function handleAddSessao() {
+    if (!novaSessao.trim()) return;
+    setAgenda([...agenda, { materia: novaSessao, horario: "00:00" }]);
+    notificarConquista("📚 Nova sessão de estudo adicionada!");
     setNovaSessao("");
     setShowAddSessao(false);
-  };
-
-  // --- Adicionar disciplina ---
-  const handleAddDisciplina = () => {
-    if (!novaDisciplina.trim()) {
-      Alert.alert("Erro", "Digite o nome da disciplina antes de adicionar.");
-      return;
-    }
-    setDisciplinas([...disciplinas, novaDisciplina]);
-    setDisciplinasAtivas(disciplinasAtivas + 1);
-    setNovaDisciplina("");
-    setShowAddDisciplina(false);
-  };
-
-  // --- Concluir meta ---
-  const handleConcluirMeta = () => {
-    if (metas.feitas < metas.total) {
-      setMetas({ ...metas, feitas: metas.feitas + 1 });
-      Alert.alert("Boa!", "Meta concluída 🎯");
-    } else {
-      Alert.alert("Parabéns!", "Você completou todas as metas!");
-    }
-  };
-
-  // --- Adicionar tempo de estudo ---
-  const handleAdicionarTempo = () => {
-    setTempoHoje((prev) => prev + 60); // +1 hora (60 min)
-    setProgressoSemana((prev) => ({
-      ...prev,
-      atual: prev.atual + 1,
-    }));
-  };
-
-  // --- Verifica se a meta semanal foi atingida ---
-  useEffect(() => {
-    if (progressoSemana.atual >= progressoSemana.meta) {
-      Alert.alert(
-        "🎉 Meta concluída!",
-        "Você atingiu sua meta semanal de estudos. Continue assim!"
-      );
-    }
-  }, [progressoSemana.atual]);
+  }
 
   return {
     sequenciaDias,
-    setSequenciaDias,
+    setSequenciaDias: incrementarSequencia,
     tempoHoje,
-    setTempoHoje,
     formatarTempo,
-    disciplinas,
-    setDisciplinas,
+    handleAdicionarTempo,
     disciplinasAtivas,
     metas,
-    setMetas,
-    progressoSemana,
-    setProgressoSemana,
+    handleConcluirMeta,
     agenda,
-    setAgenda,
-    novaSessao,
-    setNovaSessao,
-    novaDisciplina,
-    setNovaDisciplina,
+    handleAddSessao,
     showAddSessao,
     setShowAddSessao,
-    showAddDisciplina,
-    setShowAddDisciplina,
-    handleAddSessao,
-    handleAddDisciplina,
-    handleConcluirMeta,
-    handleAdicionarTempo,
+    novaSessao,
+    setNovaSessao,
+    progressoSemana,
   };
 }
