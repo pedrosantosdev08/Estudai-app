@@ -2,8 +2,7 @@ import React from "react";
 import { Card, Text, ProgressBar } from "react-native-paper";
 import { useState } from "react";
 import { styles } from "../../styles/StatsStyle";
-import { View } from 'react-native'
-
+import { View } from "react-native";
 
 export function Desempenho() {
   const formatarTempo = (minutos: number) => {
