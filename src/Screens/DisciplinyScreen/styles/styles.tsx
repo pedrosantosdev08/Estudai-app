@@ -1,18 +1,14 @@
 import { StyleSheet } from "react-native";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     background: {
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         right: 0,
         top: 0,
-        color: "#6200ee",
         height: 300,
     },
-    barButton: {
-        flex: 1,
-        marginHorizontal: 4,
-    },
+    barButton: { flex: 1, marginHorizontal: 4 },
     bottomBar: {
         flexDirection: "row",
         justifyContent: "space-around",
@@ -20,9 +16,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderColor: "#ccc",
         backgroundColor: "#f9f9f9",
-    },
-    button: {
-        marginTop: 8,
     },
     card: {
         backgroundColor: "#fff",
@@ -43,30 +36,17 @@ const styles = StyleSheet.create({
         borderColor: "#ff4d4d",
         borderWidth: 1,
     },
-    container: {
-        flex: 1,
-        backgroundColor: "#f2f2f2",
-    },
-    fab: {
-        position: "absolute",
-        right: 16,
-        bottom: 16,
-        backgroundColor: "#6200ee",
-    },
-    header: {
-        backgroundColor: "#f2f2f2",
-    },
-    highlight: {
-        fontSize: 32,
-        fontWeight: "bold",
-        color: "#6200ee",
-    },
+    container: { flex: 1, backgroundColor: "#f2f2f2" },
+    fab: { position: "absolute", right: 16, bottom: 16, backgroundColor: "#6200ee" },
+    header: { backgroundColor: "#f2f2f2" },
+    highlight: { fontSize: 32, fontWeight: "bold", color: "#6200ee" },
     input: {
         borderWidth: 1,
         borderColor: "#ccc",
         padding: 12,
         borderRadius: 8,
         marginBottom: 12,
+        backgroundColor: "#fff",
     },
     itemRow: {
         flexDirection: "row",
@@ -74,17 +54,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 8,
     },
-    MateriaCard: {
-        marginTop: 16,
-    },
-    modalWrapper: {
-        flex: 1,
-        justifyContent: "space-between",
-    },
-    modalContent: {
-        padding: 16,
-        paddingBottom: 80,
-    },
+    MateriaCard: { marginTop: 16 },
+    modalWrapper: { flex: 1, justifyContent: "space-between" },
+    modalContent: { padding: 16, paddingBottom: 80 },
     manageCard: {
         position: "absolute",
         bottom: 70,
@@ -95,31 +67,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingVertical: 8,
     },
-    manageButton: {
-        marginVertical: 4,
-    },
-    outsideButton: {
-        marginBottom: 16,
-    },
-    preview: {
-        width: "100%",
-        height: 200,
-        marginTop: 8,
-        borderRadius: 8,
-    },
-    scrollContent: {
-        padding: 16,
-        paddingBottom: 80,
-    },
-    textActions: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 8,
-    },
-    textButton: {
-        flex: 1,
-        marginHorizontal: 4,
-    },
+    manageButton: { marginVertical: 4 },
+    outsideButton: { marginBottom: 16 },
+    preview: { width: "100%", height: 200, marginTop: 8, borderRadius: 8 },
+    scrollContent: { padding: 16, paddingBottom: 80 },
+    textActions: { flexDirection: "row", justifyContent: "space-between", marginTop: 8 },
+    textButton: { flex: 1, marginHorizontal: 4 },
     textInput: {
         minHeight: 60,
         borderColor: "#ccc",
@@ -128,12 +81,5 @@ const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: "#fff",
     },
-    textInputWrapper: {
-        marginVertical: 12,
-        padding: 8,
-        backgroundColor: "#f5f5f5",
-        borderRadius: 8,
-    },
+    textInputWrapper: { marginVertical: 12, padding: 8, backgroundColor: "#f5f5f5", borderRadius: 8 },
 });
-
-export default styles;

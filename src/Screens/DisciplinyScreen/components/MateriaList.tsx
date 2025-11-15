@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-native-paper";
 import { TouchableWithoutFeedback } from "react-native";
-import styles from "./styles";
+import { styles } from "../styles/styles";
 
 const MateriaList = ({
   cards,

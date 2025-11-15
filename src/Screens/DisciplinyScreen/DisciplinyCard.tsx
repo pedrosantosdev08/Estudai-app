@@ -1,44 +1,30 @@
-import React, { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
 import { View, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Appbar, Card, Text } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { useMateriais } from "@/src/Screens/DisciplinyScreen/UseMaterial";
-import { styles } from "@/src/Screens/TelaPrincipal/TelaPrincipalStyle";
-import MateriaForm from "@/src/Screens/DisciplinyScreen/MateriaForm";
-import MaterialModal from "@/src/Screens/DisciplinyScreen/MaterialModal";
+import { styles } from "./styles/styles";
+import MateriaForm from "./components/MateriaForm";
+import MaterialModal from "./components/MaterialModal";
+import { Materia, useMateriais } from "./services/UseMaterial";
 
+export default function DisciplinyCard() {
+  const {
+    materias,
+    criarMateria,
+    excluirMateria,
+  } = useMateriais();
 
-type Materia = {
-  id: number;
-  title: string;
-};
-
-const MATERIAS_KEY = "lista_materias";
-
-const DisciplinyCard = () => {
-  const [materias, setMaterias] = useState<Materia[]>([]);
   const [materiaSelecionada, setMateriaSelecionada] = useState<Materia | null>(null);
-  const { excluirMateria } = useMateriais(materiaSelecionada?.id); // usa o id da matéria selecionada
   const [modalVisivel, setModalVisivel] = useState(false);
 
-  useEffect(() => {
-    const carregarMaterias = async () => {
-      const json = await AsyncStorage.getItem(MATERIAS_KEY);
-      const lista = json ? JSON.parse(json) : [];
-      setMaterias(lista);
-    };
-    carregarMaterias();
-  }, []);
-
-  const salvarMaterias = async (lista: Materia[]) => {
-    await AsyncStorage.setItem(MATERIAS_KEY, JSON.stringify(lista));
-  };
-
-  const handleCriarMateria = async (nova: Materia) => {
-    const atualizadas = [...materias, nova];
-    setMaterias(atualizadas);
-    await salvarMaterias(atualizadas);
+  const handleCriarMateria = async (title: string) => {
+    const nomeNormalizado = title.trim().toLowerCase();
+    const existe = materias.some(m => m.title.trim().toLowerCase() === nomeNormalizado);
+    if (existe) {
+      Alert.alert("Já existe uma matéria com esse nome.");
+      return;
+    }
+    const nova = await criarMateria(title);
     setMateriaSelecionada(nova);
     setModalVisivel(true);
   };
@@ -50,46 +36,37 @@ const DisciplinyCard = () => {
 
   const handleExcluirMateria = () => {
     if (!materiaSelecionada) return;
-
     Alert.alert(
       "Confirmar exclusão",
       `Deseja realmente excluir a matéria "${materiaSelecionada.title}"?`,
       [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
+        { text: "Cancelar", style: "cancel" },
         {
           text: "Confirmar",
           style: "destructive",
           onPress: async () => {
-            const atualizadas = materias.filter(m => m.id !== materiaSelecionada.id);
-            setMaterias(atualizadas);
-            await salvarMaterias(atualizadas);
-            await excluirMateria(); // apaga conteúdo vinculado
+            await excluirMateria(materiaSelecionada.id);
             setMateriaSelecionada(null);
             setModalVisivel(false);
           },
         },
-      ]
+      ],
     );
   };
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["#6200ee", "transparent"]}
-        style={styles.background} />
+      <LinearGradient colors={["#6200ee", "transparent"]} style={styles.background} />
 
       <Appbar.Header style={styles.header} mode="center-aligned">
         <Appbar.Content title="Minhas Matérias 📚" color="#6200ee" />
       </Appbar.Header>
 
-      <MateriaForm onCriar={handleCriarMateria} materias={materias} />
+      <MateriaForm onCriar={handleCriarMateria} />
 
       <FlatList
         data={materias}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleAbrirMateria(item)}>
             <Card style={styles.card}>
@@ -99,19 +76,15 @@ const DisciplinyCard = () => {
             </Card>
           </TouchableOpacity>
         )}
-        ListEmptyComponent={
-          <Text style={{ marginTop: 16 }}>Nenhuma matéria criada ainda.</Text>
-        }
+        ListEmptyComponent={<Text style={{ marginTop: 16 }}>Nenhuma matéria criada ainda.</Text>}
       />
 
       <MaterialModal
         visible={modalVisivel}
-        card={materiaSelecionada ?? undefined}
+        materia={materiaSelecionada ?? undefined}
         onClose={() => setModalVisivel(false)}
-        onDelete={handleExcluirMateria}
+        onRequestDelete={handleExcluirMateria}
       />
     </View>
   );
-};
-
-export default DisciplinyCard;
+}
