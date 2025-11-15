@@ -54,7 +54,7 @@ O **Estudaí** surge como solução moderna e intuitiva, unindo **planejamento, 
 | Camada | Tecnologia | Descrição |
 |--------|-------------|-----------|
 | **Frontend (Mobile)** | ⚛️ React Native | Performance e compatibilidade entre iOS e Android |
-| **Notificações / Alertas** | 🔔 Push API / Email | Lembretes e sincronização com calendários externos |
+| **Notificações / Alertas** | 🔔 Push API | Lembretes e sincronização com calendários externos |
 
 ---
 
