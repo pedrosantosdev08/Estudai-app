@@ -13,7 +13,6 @@ export default function TelaPrincipal() {
   return (
     <View style={styles.container}>
       <Header />
-
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <SequenciaCard />
         <DayCard />
