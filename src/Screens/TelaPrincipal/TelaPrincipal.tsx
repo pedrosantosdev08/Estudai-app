@@ -6,8 +6,8 @@ import SequenciaCard from "./components/SequenciaCard/SequenciaCard";
 import DayCard from "./components/DayCard/DayCard";
 import DisciplinaCard from "./components/DisciplinaCard/DisciplinaCard";
 import MetaCard from "./components/MetaCard/MetaCard";
-import AgendaCard from "./components/AgendaCard/AgendaCard";
 import ProgressoCard from "./components/ProgressoCard/ProgressoCard";
+import { AgendaCard } from "./components/AgendaCard/AgendaCard";
 
 export default function TelaPrincipal() {
   return (
