@@ -1,43 +1,61 @@
 import { styles } from "../../TelaPrincipalStyle";
-import { Button, Card, TextInput } from "react-native-paper";
+import { Button, Card, TextInput, Text } from "react-native-paper";
 import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { TelaPrincipalLogic } from "../../Services/TelaPrincipalLogic";
+import { useState } from "react";
+import { useNotification } from "../../../../providers/NotificationProvider";
+import { useAppData } from "@/src/context/AppStorageContext";
 
 export const AgendaCard = () => {
-  const logic = TelaPrincipalLogic();
-  return (
-    <>
-      <Card style={styles.card}>
-        <Card.Content>
-          <Text variant="headlineSmall">Agenda de Hoje</Text>
-          {logic.agenda.map((item, index) => (
-            <View key={index}>
-              <Text style={styles.agendaItem}>{item.materia}</Text>
-              <Text style={styles.agendaTime}>{item.horario}</Text>
-            </View>
-          ))}
+  const { data, updateData } = useAppData();
+  const { notificarConquista } = useNotification();
 
-          {logic.showAddSessao ? (
-            <>
-              <TextInput
-                mode="outlined"
-                label="Nova sessão"
-                value={logic.novaSessao}
-                onChangeText={logic.setNovaSessao}
-                style={{ marginVertical: 8 }}
-              />
-              <Button onPress={logic.handleAddSessao}>Salvar</Button>
-            </>
-          ) : (
-            <Button onPress={() => logic.setShowAddSessao(true)}>
-              + Adicionar sessão de estudo
-            </Button>
-          )}
-        </Card.Content>
-      </Card>
-    </>
+  const [showAddSessao, setShowAddSessao] = useState(false);
+  const [novaSessao, setNovaSessao] = useState("");
+
+  function handleAddSessao() {
+    if (!novaSessao.trim()) return;
+
+    const novaAgenda = [
+      ...data.agenda,
+      { materia: novaSessao, horario: "00:00" },
+    ];
+
+    updateData({ agenda: novaAgenda });
+
+    notificarConquista("📚 Nova sessão de estudo adicionada!");
+    setNovaSessao("");
+    setShowAddSessao(false);
+  }
+
+  return (
+    <Card style={styles.card}>
+      <Card.Content>
+        <Text variant="headlineSmall">Agenda de Hoje</Text>
+
+        {data.agenda.map((item: { materia: string; horario: string }, index: number) => (
+          <View key={index}>
+            <Text style={styles.agendaItem}>{item.materia}</Text>
+            <Text style={styles.agendaTime}>{item.horario}</Text>
+          </View>
+        ))}
+
+        {showAddSessao ? (
+          <>
+            <TextInput
+              mode="outlined"
+              label="Nova sessão"
+              value={novaSessao}
+              onChangeText={setNovaSessao}
+              style={{ marginVertical: 8 }}
+            />
+            <Button onPress={handleAddSessao}>Salvar</Button>
+          </>
+        ) : (
+          <Button onPress={() => setShowAddSessao(true)}>
+            + Adicionar sessão de estudo
+          </Button>
+        )}
+      </Card.Content>
+    </Card>
   );
 };
-
-export default AgendaCard;

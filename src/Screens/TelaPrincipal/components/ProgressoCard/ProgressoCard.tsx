@@ -1,26 +1,29 @@
+import React from "react";
 import { styles } from "../../TelaPrincipalStyle";
-import { Card, ProgressBar } from "react-native-paper";
-import { Text } from "react-native-paper";
-import { TelaPrincipalLogic } from "../../Services/TelaPrincipalLogic";
+import { Card, ProgressBar, Text } from "react-native-paper";
+import { useAppData } from "@/src/context/AppStorageContext";
+
 
 export const ProgressoCard = () => {
-  const logic = TelaPrincipalLogic();
+  const { data } = useAppData();
+
+  const progresso = data.progresso.atual / data.progresso.meta;
+
   return (
-    <>
-      <Card style={styles.card}>
-        <Card.Content>
-          <Text variant="headlineSmall">Progresso Semanal</Text>
-          <ProgressBar
-            progress={logic.progressoSemana.atual / logic.progressoSemana.meta}
-            color="#6200ee"
-            style={styles.progressBar}
-          />
-          <Text style={styles.infoText}>
-            {logic.progressoSemana.atual}/{logic.progressoSemana.meta}h
-          </Text>
-        </Card.Content>
-      </Card>
-    </>
+    <Card style={styles.card}>
+      <Card.Content>
+        <Text variant="headlineSmall">Progresso Semanal</Text>
+
+        <ProgressBar
+          progress={progresso}
+          style={styles.progressBar}
+        />
+
+        <Text style={styles.infoText}>
+          {data.progresso.atual}/{data.progresso.meta}h
+        </Text>
+      </Card.Content>
+    </Card>
   );
 };
 
