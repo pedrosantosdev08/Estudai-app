@@ -1,15 +1,17 @@
-import React from "react";
 import { PaperProvider } from "react-native-paper";
 import { Layout } from "./src/components/Layout/Layout";
-import { AppProvider } from "./src/context/AppStorageContext";
-
+import React from "react";
+import { AppProvider } from "@/src/context/AppStorageContext";
+import { NotificationProvider } from "@/src/providers/NotificationProvider";
 
 export default function App() {
   return (
-    <PaperProvider>
-      <AppProvider>   {/* ⬅ envolve seu Layout */}
-        <Layout />
-      </AppProvider>
-    </PaperProvider>
+    <NotificationProvider>
+      <PaperProvider>
+        <AppProvider>
+          <Layout />
+        </AppProvider>
+      </PaperProvider>
+    </NotificationProvider>
   );
 }

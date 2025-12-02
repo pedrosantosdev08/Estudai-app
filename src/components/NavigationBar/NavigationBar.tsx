@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { View } from "react-native";
-import { BottomNavigation, Provider, Icon } from "react-native-paper";
+import { TouchableOpacity, View, Text } from "react-native";
+import {
+  BottomNavigation,
+  Provider,
+  Icon,
+  MD3LightTheme,
+} from "react-native-paper";
 
-import TelaPrincipal from "@/src/Screens/TelaPrincipal/TelaPrincipal";
-import DisciplinyCard from "../../Screens/DisciplinyScreen/DisciplinyCard";
-import PomodoroScreen from "@/src/Screens/PomodoroScreen/PomodoroScreen";
-import StatsScreen from "@/src/Screens/StatsScreens/StatsScreens";
 import { styles } from "./NavigationBarStyle";
+import DisciplinyCard from "@/src/modules/Screens/DisciplinyScreen/DisciplinyCard";
+import PomodoroScreen from "@/src/modules/Screens/PomodoroScreen/PomodoroScreen";
+import StatsScreen from "@/src/modules/Screens/StatsScreens/StatsScreens";
+import TelaPrincipal from "@/src/modules/Screens/TelaPrincipal/TelaPrincipal";
 
 export default function NavigationBar() {
   const [index, setIndex] = useState(0);
@@ -34,32 +39,33 @@ export default function NavigationBar() {
   };
 
   return (
-    <Provider>
+    <Provider theme={MD3LightTheme}>
       <View style={styles.container}>
-        <View style={styles.scene}>{renderScene({ route: routes[index] })}</View>
+        <View style={styles.scene}>
+          {renderScene({ route: routes[index] })}
+        </View>
 
-        <BottomNavigation.Bar
-          navigationState={{ index, routes }}
-          onTabPress={({ route }) => {
-            const newIndex = routes.findIndex((r) => r.key === route.key);
-            if (newIndex !== -1) setIndex(newIndex);
-          }}
-          renderIcon={({ route, focused, color }) => (
-            <Icon
-              source={route.icon}
-              size={focused ? 28 : 22}
-              color={focused ? "#6200ee" : "#9E9E9E"}
-            />
-          )}
-          getLabelText={({ route }) => route.title}
-          activeColor="#9E9E9E"
-          inactiveColor="#9E9E9E"
-          style={styles.bottomBar}
-          labelMaxFontSizeMultiplier={1}
-        />
+        <View style={styles.bottomBar}>
+          {routes.map((route, i) => (
+            <TouchableOpacity
+              key={route.key}
+              style={styles.tabButton}
+              onPress={() => setIndex(i)}
+            >
+              <Icon
+                source={route.icon}
+                size={i === index ? 26 : 24}
+                color={i === index ? "#3D7DF2" : "#94A3B8"}
+              />
+              <Text
+                style={i === index ? styles.tabLabelActive : styles.tabLabel}
+              >
+                {route.title}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </Provider>
   );
 }
-
-

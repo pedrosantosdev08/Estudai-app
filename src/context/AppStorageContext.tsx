@@ -1,67 +1,126 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  notifyOneHour,
+  notifyNewSession,
+  notifyStreak,
+  notifyMetaCompleta,
+} from "../service/notifications/NotificationService";
 
-// Tipos de cada parte do estado
-type AgendaItem = {
-  materia: string;
-  horario: string;
-};
-
-type MetasStatus = {
-  feitas: number;
-  total: number;
-};
+type AgendaItem = { materia: string; horario: string };
+type MetasStatus = { feitas: number; total: number };
+type ProgressoStatus = { atual: number; meta: number };
 
 type AppData = {
-  agenda: { materia: string; horario: string }[];
+  agenda: AgendaItem[];
   disciplinas: string[];
-  metas: { feitas: number; total: number };
-  progresso: { atual: number; meta: number };
-  tempoHoje: number;   // ⬅ novo
-  sequenciaDias: number; // ⬅ novo
+  metas: MetasStatus;
+  progresso: ProgressoStatus;
+  tempoHoje: number;
+  sequenciaDias: number;
+  totalEstudo: number;
 };
 
-
-// Tipagem do contexto
 interface AppContextProps {
   data: AppData;
-  updateData: (newData: Partial<AppData>) => void;
+  updateData: (newData: Partial<AppData>) => Promise<void>;
 }
 
 const defaultData: AppData = {
-  agenda: [
-    { materia: "Java", horario: "08:00" },
-    { materia: "Banco de Dados", horario: "10:00" },
-  ],
+  agenda: [],
   disciplinas: ["Java", "Banco de Dados", "Docker"],
   metas: { feitas: 0, total: 3 },
-  progresso: { atual: 4, meta: 10 },
-  tempoHoje: 0, // ⬅ novo
-  sequenciaDias: 0, // ⬅ novo
+  progresso: { atual: 0, meta: 10 },
+  tempoHoje: 0,
+  sequenciaDias: 0,
+  totalEstudo: 0,
 };
-
 
 const STORAGE_KEY = "@MeuAppData";
 
 export const AppContext = createContext<AppContextProps>({
   data: defaultData,
-  updateData: () => {},
+  updateData: async () => {},
 });
+
+// =================================================================
+// PROVIDER
+// =================================================================
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<AppData>(defaultData);
+  const prevData = useRef<AppData>(defaultData);
+  const isLoaded = useRef(false);
 
-  // Carrega do storage ao iniciar
+  // -------------------------------
+  // 1) Carregar dados do AsyncStorage na inicialização
+  // -------------------------------
   useEffect(() => {
     (async () => {
       const saved = await AsyncStorage.getItem(STORAGE_KEY);
-      if (saved) setData(JSON.parse(saved));
+      if (saved) {
+        const parsed: AppData = JSON.parse(saved);
+        setData(parsed);
+        prevData.current = parsed;
+      }
+      isLoaded.current = true;
     })();
   }, []);
 
-  // Atualiza dados + salva no storage
+  // -------------------------------
+  // 2) Detectar mudanças e disparar notificações
+  // -------------------------------
+  useEffect(() => {
+    if (!isLoaded.current) return;
+
+    const old = prevData.current;
+    const d = data;
+
+    // 1h de estudo
+    if (d.tempoHoje >= 60 && old.tempoHoje < 60) {
+      notifyOneHour();
+    }
+
+    // Meta concluída
+    if (d.metas.feitas > old.metas.feitas && d.metas.feitas === d.metas.total) {
+      notifyMetaCompleta();
+    }
+
+    // Sequência de dias
+    if (d.sequenciaDias > old.sequenciaDias) {
+      notifyStreak(d.sequenciaDias);
+    }
+
+    prevData.current = d;
+  }, [data]);
+
+  // -------------------------------
+  // 3) Atualizar contexto + salvar no AsyncStorage
+  // -------------------------------
   const updateData = async (newData: Partial<AppData>) => {
-    const updated = { ...data, ...newData };
+    let updated = { ...data, ...newData };
+
+    // 🔥 SE tempoHoje mudar, atualizar totalEstudo automaticamente
+    if (typeof newData.tempoHoje === "number") {
+      const diff = newData.tempoHoje - data.tempoHoje;
+
+      if (diff > 0) {
+        updated.totalEstudo = (data.totalEstudo || 0) + diff;
+      }
+    }
+
+    // 🔔 Notificar nova sessão
+    if (newData.agenda && newData.agenda.length > data.agenda.length) {
+      const novaSessao = newData.agenda[newData.agenda.length - 1].materia;
+      notifyNewSession(novaSessao);
+    }
+
     setData(updated);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   };
@@ -73,4 +132,5 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+// Hook
 export const useAppData = () => useContext(AppContext);
