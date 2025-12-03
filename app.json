@@ -1,26 +1,24 @@
 {
   "expo": {
-    "name": "estudai-app",
+    "name": "EstudAI",
     "slug": "estudai-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "plugins": [
-        "expo-notifications"
-      ]
+      "plugins": ["expo-notifications"]
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -35,8 +33,6 @@
         "projectId": "6c6254ab-569f-48eb-84c7-7cc9bcc3fbee"
       }
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }
