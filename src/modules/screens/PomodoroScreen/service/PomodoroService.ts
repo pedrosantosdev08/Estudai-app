@@ -1,7 +1,8 @@
 // service/PomodoroService.ts
+import * as Notifications from "expo-notifications";
 
 export const POMODORO_TIME = 25 * 60;
-export const SHORT_BREAK_TIME = 5 * 60;
+export const SHORT_BREAK_TIME = 1 * 60;
 export const LONG_BREAK_TIME = 15 * 60;
 
 export type Mode = "Pomodoro" | "Pausa Curta" | "Pausa Longa";
@@ -22,3 +23,19 @@ export const formatTime = (totalSeconds: number) => {
   const sec = String(totalSeconds % 60).padStart(2, "0");
   return `${min}:${sec}`;
 };
+
+export async function notify(title: string, body: string) {
+  await Notifications.scheduleNotificationAsync({
+    content: { title, body },
+    trigger: null, // dispara imediatamente
+  });
+}
+
+export const notifyPomodoroFinished = () =>
+  notify("Pomodoro finalizado!", "Hora de fazer uma pausa.");
+
+export const notifyShortBreakFinished = () =>
+  notify("Pausa curta finalizada!", "Vamos voltar ao foco!");
+
+export const notifyLongBreakFinished = () =>
+  notify("Pausa longa finalizada!", "Hora de recomeçar!");

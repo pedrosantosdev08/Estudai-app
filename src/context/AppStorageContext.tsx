@@ -6,6 +6,7 @@ import React, {
   useRef,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   notifyOneHour,
   notifyNewSession,
@@ -59,7 +60,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const isLoaded = useRef(false);
 
   // -------------------------------
-  // 1) Carregar dados do AsyncStorage na inicialização
+  // 1) Carregar dados do AsyncStorage
   // -------------------------------
   useEffect(() => {
     (async () => {
@@ -82,17 +83,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const old = prevData.current;
     const d = data;
 
-    // 1h de estudo
+    // ⏳ 1h de estudo
     if (d.tempoHoje >= 60 && old.tempoHoje < 60) {
       notifyOneHour();
     }
 
-    // Meta concluída
+    // 🏆 Meta concluída
     if (d.metas.feitas > old.metas.feitas && d.metas.feitas === d.metas.total) {
       notifyMetaCompleta();
     }
 
-    // Sequência de dias
+    // 🔥 Sequência de dias
     if (d.sequenciaDias > old.sequenciaDias) {
       notifyStreak(d.sequenciaDias);
     }
@@ -101,21 +102,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [data]);
 
   // -------------------------------
-  // 3) Atualizar contexto + salvar no AsyncStorage
+  // 3) Atualizar estado + salvar no AsyncStorage
   // -------------------------------
   const updateData = async (newData: Partial<AppData>) => {
     let updated = { ...data, ...newData };
 
-    // 🔥 SE tempoHoje mudar, atualizar totalEstudo automaticamente
+    // Atualizar totalEstudo
     if (typeof newData.tempoHoje === "number") {
       const diff = newData.tempoHoje - data.tempoHoje;
-
-      if (diff > 0) {
-        updated.totalEstudo = (data.totalEstudo || 0) + diff;
-      }
+      if (diff > 0) updated.totalEstudo = (data.totalEstudo || 0) + diff;
     }
 
-    // 🔔 Notificar nova sessão
+    // 📚 Nova sessão adicionada na agenda
     if (newData.agenda && newData.agenda.length > data.agenda.length) {
       const novaSessao = newData.agenda[newData.agenda.length - 1].materia;
       notifyNewSession(novaSessao);
@@ -132,5 +130,4 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Hook
 export const useAppData = () => useContext(AppContext);

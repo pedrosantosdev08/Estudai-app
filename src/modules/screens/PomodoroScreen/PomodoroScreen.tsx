@@ -12,6 +12,13 @@ import {
 import Controls from "./components/Controls/Controls";
 import TimerCircle from "./components/TimerCicle/TimerCicle";
 
+// 👉 IMPORTAR NOTIFICAÇÕES 👇
+import {
+  notifyPomodoroFinished,
+  notifyShortBreakFinished,
+  notifyLongBreakFinished,
+} from "./service/PomodoroService";
+
 export type Mode = "Pomodoro" | "Pausa Curta" | "Pausa Longa";
 
 export default function PomodoroScreen() {
@@ -32,6 +39,9 @@ export default function PomodoroScreen() {
         const newCount = sessionsCompleted + 1;
         setSessionsCompleted(newCount);
 
+        // 🔔 ENVIAR NOTIFICAÇÃO (fim do pomodoro)
+        notifyPomodoroFinished();
+
         if (newCount % 4 === 0) {
           setMode("Pausa Longa");
           setTime(LONG_BREAK_TIME);
@@ -39,7 +49,12 @@ export default function PomodoroScreen() {
           setMode("Pausa Curta");
           setTime(SHORT_BREAK_TIME);
         }
-      } else {
+      } else if (mode === "Pausa Curta") {
+        notifyShortBreakFinished();
+        setMode("Pomodoro");
+        setTime(POMODORO_TIME);
+      } else if (mode === "Pausa Longa") {
+        notifyLongBreakFinished();
         setMode("Pomodoro");
         setTime(POMODORO_TIME);
       }
@@ -68,7 +83,6 @@ export default function PomodoroScreen() {
     handleModeChange(mode);
   };
 
-  // 🎨 PALHETA ATUALIZADA
   const primaryColor = "#3D7DF2";
 
   return (
