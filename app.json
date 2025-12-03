@@ -11,22 +11,32 @@
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "plugins": ["expo-notifications"]
+      "plugins": [
+        "expo-notifications"
+      ]
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.uninassau.estudai"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6c6254ab-569f-48eb-84c7-7cc9bcc3fbee"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
