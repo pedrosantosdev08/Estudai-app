@@ -1,90 +1,40 @@
-import React, { createContext, useContext, useEffect, ReactNode } from "react";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
-import { Platform, Alert } from "react-native";
-import { agendarLembreteDiario, notificarConquista } from "./services/notification";
+import React, { createContext, useContext, useState } from "react";
+import NotificationService from "../service/notifications/NotificationService";
 
+type NotificationContextType = {
+  pushToken: string | null;
+  sendLocalNotification: () => void;
+};
 
-//  Tipagem do contexto
-interface NotificationContextProps {
-  notificarConquista: (mensagem: string) => Promise<void>;
-}
-
-//  Contexto inicial
-const NotificationContext = createContext<NotificationContextProps>({
-  notificarConquista: async () => {},
+const NotificationContext = createContext<NotificationContextType>({
+  pushToken: null,
+  sendLocalNotification: () => {},
 });
 
-//  Provider
-export const NotificationProvider = ({ children }: { children: ReactNode }) => {
-  useEffect(() => {
-    inicializarNotificacoes();
+export function NotificationProvider({ children }: any) {
+  const [pushToken, setPushToken] = useState<string | null>(null);
+
+  const init = async () => {
+    const token = await NotificationService.init();
+    setPushToken(token);
+  };
+
+  React.useEffect(() => {
+    init();
   }, []);
 
-  //  Configuração inicial
-  async function inicializarNotificacoes() {
-    try {
-      // Define comportamento padrão
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: false,
-          shouldShowBanner: true,
-          shouldShowList: true,
-        }),
-      });
-
-      // Cria canal Android
-      if (Platform.OS === "android") {
-        await Notifications.setNotificationChannelAsync("default", {
-          name: "default",
-          importance: Notifications.AndroidImportance.MAX,
-        });
-      }
-
-      // Solicita permissões
-      await solicitarPermissao();
-
-      // Agenda lembrete diário
-      await agendarLembreteDiario();
-    } catch (error) {
-      console.error(" Erro ao inicializar notificações:", error);
-    }
-  }
-
-  //  Solicitar permissão
-  async function solicitarPermissao() {
-    if (!Device.isDevice) return;
-
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-
-    if (finalStatus !== "granted") {
-      Alert.alert(
-        "Permissão necessária",
-        "Ative as notificações para receber lembretes e conquistas!"
-      );
-      return;
-    }
-
-    // Obtém o token de push (opcional, útil para backend futuramente)
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log("Expo Push Token:", token);
-  }
-
-  //  Expor funções do contexto
   return (
-    <NotificationContext.Provider value={{ notificarConquista }}>
+    <NotificationContext.Provider
+      value={{
+        pushToken,
+        sendLocalNotification: NotificationService.scheduleLocalNotification,
+      }}
+    >
       {children}
     </NotificationContext.Provider>
   );
-};
+}
 
-//  Hook customizado
-export const useNotification = () => useContext(NotificationContext);
+export function useNotifications() {
+  return useContext(NotificationContext);
+}
